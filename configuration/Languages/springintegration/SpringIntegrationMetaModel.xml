@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<metaModel  file_level="client" file_no="35">
+    
+    <type name="SpringIntegrationInputChannel" rid="1">
+      <description>Service Activator InputChannel</description>
+	  <inheritedCategory name="CAST_PluginObject"/>
+      <inheritedCategory name="Java" />
+      <inheritedCategory name="ChannelProperties"/>
+    </type> 
+    
+     <type name="SpringIntegrationOutputChannel" rid="2">
+      <description>Service Activator InputChannel</description>
+	  <inheritedCategory name="CAST_PluginObject"/>
+      <inheritedCategory name="Java" />
+      <inheritedCategory name="ChannelProperties"/>
+    </type> 
+        
+    <category name="ChannelProperties" rid="3">
+        <description>Custom properties for service activator Channel</description>
+        <property name="ref" type="string" rid="4">
+            <description>Bean Class</description>
+            <attribute name="INF_TYPE" intValue="2035000"/>
+            <attribute name="INF_SUB_TYPE" intValue="1"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="method" type="string" rid="5">
+            <description>Channel Method</description>
+            <attribute name="INF_TYPE" intValue="2035001"/>
+            <attribute name="INF_SUB_TYPE" intValue="2"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+     </category> 
+	 
+</metaModel>
