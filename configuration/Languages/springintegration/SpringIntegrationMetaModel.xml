@@ -3,21 +3,50 @@
 <metaModel  file_level="client" file_no="35">
     
     <type name="SpringIntegrationInputChannel" rid="1">
-      <description>Service Activator InputChannel</description>
+      <description>Spring Integration Input Channel</description>
 	  <inheritedCategory name="CAST_PluginObject"/>
       <inheritedCategory name="Java" />
       <inheritedCategory name="ChannelProperties"/>
     </type> 
     
      <type name="SpringIntegrationOutputChannel" rid="2">
-      <description>Service Activator InputChannel</description>
+      <description>Spring Integration Output Channel</description>
 	  <inheritedCategory name="CAST_PluginObject"/>
       <inheritedCategory name="Java" />
       <inheritedCategory name="ChannelProperties"/>
     </type> 
-        
+    
+     <type name="SpringIntegrationDiscardChannel" rid="6">
+      <description>Spring Integration Discard Channel</description>
+	  <inheritedCategory name="CAST_PluginObject"/>
+      <inheritedCategory name="Java" />
+      <inheritedCategory name="ChannelProperties"/>
+   </type>
+   
+    <type name="SpringIntegrationrequestChannel" rid="12">
+      <description>Spring Integration Request Channel</description>
+	  <inheritedCategory name="CAST_PluginObject"/>
+      <inheritedCategory name="Java" />
+      <inheritedCategory name="gatewayProperties"/>
+   </type>
+    
+    
+    <type name="SpringIntegrationreplyChannel" rid="13">
+      <description>Spring Integration Reply Channel</description>
+	  <inheritedCategory name="CAST_PluginObject"/>
+      <inheritedCategory name="Java" />
+      <inheritedCategory name="gatewayProperties"/>
+   </type>
+   
+    <type name="SpringIntegrationChannel" rid="14">
+      <description>Spring Integration Channel</description>
+	  <inheritedCategory name="CAST_PluginObject"/>
+      <inheritedCategory name="Java" />
+      <inheritedCategory name="ChannelProperties"/>
+   </type>
+            
     <category name="ChannelProperties" rid="3">
-        <description>Custom properties for service activator Channel</description>
+        <description>Custom properties for spring Integration Channel</description>
         <property name="ref" type="string" rid="4">
             <description>Bean Class</description>
             <attribute name="INF_TYPE" intValue="2035000"/>
@@ -34,6 +63,82 @@
             <attribute name="ACCESS_CVS" intValue="1"/>
             <attribute name="ACCESS_HTML" intValue="1"/>
       </property>
+      <property name="sourcetype" type="string" rid="15">
+            <description>source Type</description>
+            <attribute name="INF_TYPE" intValue="2035006"/>
+            <attribute name="INF_SUB_TYPE" intValue="2"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="sourcefile" type="string" rid="16">
+            <description>File source</description>
+            <attribute name="INF_TYPE" intValue="2035007"/>
+            <attribute name="INF_SUB_TYPE" intValue="2"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
      </category> 
-	 
-</metaModel>
+    
+      <category name="gatewayProperties" rid="7">
+        <description>Gateway Properties</description>
+        <property name="id" type="string" rid="8">
+            <description>Gateway ID</description>
+            <attribute name="INF_TYPE" intValue="2035002"/>
+            <attribute name="INF_SUB_TYPE" intValue="1"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="serviceinterface" type="string" rid="9">
+            <description>Gateway Service interface</description>
+            <attribute name="INF_TYPE" intValue="9"/>
+            <attribute name="INF_SUB_TYPE" intValue="2035003"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+       <property name="methodname" type="string" rid="10">
+            <description>Gateway method name</description>
+            <attribute name="INF_TYPE" intValue="2035004"/>
+            <attribute name="INF_SUB_TYPE" intValue="1"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="headername" type="string" rid="11">
+            <description>Gateway method value</description>
+            <attribute name="INF_TYPE" intValue="2035005"/>
+            <attribute name="INF_SUB_TYPE" intValue="1"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+       <property name="headervalue" type="string" rid="20">
+            <description>Gateway method value</description>
+            <attribute name="INF_TYPE" intValue="2035010"/>
+            <attribute name="INF_SUB_TYPE" intValue="1"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="sourcetype" type="string" rid="17">
+            <description>source Type</description>
+            <attribute name="INF_TYPE" intValue="2035011"/>
+            <attribute name="INF_SUB_TYPE" intValue="2"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="sourcefile" type="string" rid="18">
+            <description>File source</description>
+            <attribute name="INF_TYPE" intValue="2035009"/>
+            <attribute name="INF_SUB_TYPE" intValue="2"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+    </category> 
+     
+ </metaModel>

@@ -5,6 +5,16 @@ import javax.xml.bind.JAXBElement;
  
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.integration.annotation.Transformer;
+import org.springframework.integration.annotation.Gateway;
+import org.springframework.integration.annotation.MessagingGateway;
+import org.springframework.integration.annotation.Filter;
+import org.springframework.integration.annotation.Router;
+import org.springframework.integration.annotation.Splitter;
+import org.springframework.integration.annotation.Aggregator;
+import org.springframework.integration.annotation.InboundChannelAdapter;
+import org.springframework.integration.annotation.Publisher;
+
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
  
@@ -22,6 +32,62 @@ public class FulfillmentOrderInboundJmsEndpoint
  
    @Resource(name = "fulfillmentOrderDataService")
    private FulfillmentOrderDataService fulfillmentOrderDataService;
+   
+   @Bean
+   @Transformer(inputChannel="fromTcp", outputChannel="toHandler")
+   JsonToObjectTransformer jsonToObjectTransformer() {
+       return new JsonToObjectTransformer(MyObject.class);
+   }
+   
+   @Router(inputChannel="routingChannel")
+   public String route(Object payload) {
+      
+    }
+   
+   
+   
+    @Gateway(requestChannel="orders")
+    public String placeOrder(Order order) {
+    
+    }
+    
+    @InboundChannelAdapter(Channel="inbound")
+    public String inboundplaceOrder(Order order) {
+    
+    }
+    
+    @Publisher(Channel="publish")
+    public String publishOrder(Order order) {
+    
+    }
+    
+    @MessagingGateway(defaultRequestChannel="msgorders", defaultReplyChannel="replyorders")
+    public String msgplaceOrder(Order order) {
+    
+    }
+
+   
+   
+   @Splitter(inputChannel = "tosplitterChannel", outputChannel = "tooutsplitterChannel")
+   public List<Message<?>> splitIntoMessages(final List<EmailFragment> emailFragments) {
+
+   	final List<Message<?>> messages = new ArrayList<Message<?>>();
+
+   	for (EmailFragment emailFragment : emailFragments) {
+   		Message<?> message = MessageBuilder.withPayload(emailFragment.getData())
+   										.setHeader(FileHeaders.FILENAME, emailFragment.getFilename())
+   										.setHeader("directory", emailFragment.getDirectory())
+   										.build();
+   		messages.add(message);
+   	}
+
+   	return messages;
+   }
+   
+   @Aggregator(inputChannel = "toAggregatorChannel", outputChannel = "toRouterChannel", discardChannel = "nullChannel")
+   public List<File> aggregate(List<File> files){
+       return files;
+   }
  
    @ServiceActivator(inputChannel = "consumeAndProcessFulfillment", outputChannel = "TestOutputchannel")
    public void consumeAndProcessFulfillment(final JAXBElement<FulfillmentOrder> fulfillmentOrder) throws Exception

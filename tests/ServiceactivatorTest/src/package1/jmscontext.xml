@@ -1,33 +1,132 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:int="http://www.springframework.org/schema/integration"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jms="http://www.springframework.org/schema/jms" xmlns:jee="http://www.springframework.org/schema/jee" 
+    xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:int="http://www.springframework.org/schema/integration" 
+    xmlns:int-jms="http://www.springframework.org/schema/integration/jms" xmlns:int-jmx="http://www.springframework.org/schema/integration/jmx" 
+    xmlns:int-xml="http://www.springframework.org/schema/integration/xml" xmlns:common="http://canopi.att.com/common/canopiCommon" 
+    xsi:schemaLocation=" 
+		   http://www.springframework.org/schema/beans 
+		   http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-4.1.xsd 
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-4.1.xsd 
+           http://www.springframework.org/schema/context 
+           http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+           http://www.springframework.org/schema/jms 
+           http://www.springframework.org/schema/jms/spring-jms-4.1.xsd 
+           http://www.springframework.org/schema/jee 
+           http://www.springframework.org/schema/jee/spring-jee-4.1.xsd 
+           http://www.springframework.org/schema/integration 
+           http://www.springframework.org/schema/integration/spring-integration-4.1.xsd 
+           http://www.springframework.org/schema/integration/jms 
+           http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.1.xsd 
+           http://www.springframework.org/schema/integration/jmx 
+           http://www.springframework.org/schema/integration/jmx/spring-integration-jmx-4.1.xsd 
+           http://www.springframework.org/schema/integration/xml 
+           http://www.springframework.org/schema/integration/xml/spring-integration-xml-4.1.xsd 
+           http://www.springframework.org/schema/oxm 
+           http://www.springframework.org/schema/oxm/spring-oxm-4.1.xsd 
+           http://canopi.att.com/common/canopiCommon 
+           http://canopi.att.com/common/canopiCommon.xsd"> 
+ 
+    <!-- - - - - - - - - --> 
+    <!-- JMS Dependencies --> 
+    <!-- - - - - - - - - --> 
+ 
+    <bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate"> 
+        <property name="environment"> 
+            <props> 
+                <prop key="java.naming.factory.initial">weblogic.jndi.WLInitialContextFactory 
+                </prop> 
+                <prop key="java.naming.provider.url">${jndi.url}</prop> 
+            </props> 
+        </property> 
+    </bean> 
+ 
+    <bean id="connectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+        <property name="jndiTemplate" ref="jndiTemplate" /> 
+        <property name="jndiName" value="${jms.cf.name}" /> 
+        <property name="lookupOnStartup" value="false" /> 
+        <property name="proxyInterfaces"> 
+            <list> 
+                <value>javax.jms.QueueConnectionFactory</value> 
+                <value>javax.jms.TopicConnectionFactory</value> 
+                <value>java.io.Externalizable</value> 
+                <value>weblogic.rmi.extensions.server.RemoteWrapper 
+                </value> 
+            </list> 
+        </property> 
+    </bean> 
+     <bean id="destinationResolver" class="org.springframework.jms.support.destination.JndiDestinationResolver"> 
+        <property name="jndiTemplate" ref="jndiTemplate" /> 
+        <property name="cache" value="true" /> 
+ 
+    </bean> 
+ 
+    <!--  
+    <int:channel id="toInboundJms"/> 
+	<int:gateway id="gatewayToInternalServices" 
+		service-interface="com.att.athena.ocx.interfaces.edfif.jms.MessageDispatcher" 
+		default-request-channel="toInboundJms"> 
+		<int:method name="dispatch"> 
+			<int:header name="service" value="dispatch" /> 
+		</int:method> 
+	</int:gateway> 
 
-	<bean id="creditBureau" class="org.springframework.integration.samples.loanbroker.stubs.CreditBureauStub" />
+	<int-jms:outbound-channel-adapter 
+		destination-name="edf.internal.services" channel="toInboundJms" 
+		destination-resolver="destinationResolver" connection-factory="connectionFactory" /> 
+ 
+	 <int-jms:channel id="edfifInternalServicesOut" transaction-manager="transactionManager" connection-factory="connectionFactory" 
+        destination-resolver="destinationResolver" concurrency="5-15" queue-name="edf.internal.services" /> 
+ 
+    <int:service-activator ref="edfCoimOutboundJmsEndpoint"  method="notifyBvoipSitesResponse" input-channel="edfifInternalServicesOut" /> 
+    -->  
+ 
+    <!-- - - - - - - - - -->
+    <!-- JMS Sending -->
+    <!-- - - - - - - - - -->
 
-	<!-- Bank Endpoints (to be rewired to remoting adapters) -->
-	<int:service-activator input-channel="exclusiveBankChannel" ref="BankStub" method="exclusiveBank" output-channel="loanQuotesChannel">
-		<bean class="org.springframework.integration.samples.loanbroker.stubs.BankStub" p:name="exclusiveBank" p:baseRate="3.5"/>
-	</int:service-activator>
-			
-	<int:service-activator input-channel="premiereBankChannel" ref="BankStub"  output-channel="loanQuotesChannel">
-		<bean class="org.springframework.integration.samples.loanbroker.stubs.BankStub" p:name="premiereBank" p:baseRate="4.0"/>
-	</int:service-activator>
+    <common:outage-controller datasource-ref="dataSource" bean-to-control-ref="toCsiGcpSa"
+        system-id="CSI-GCP-SA" outage-table-name="INTERFACE_OUTAGE" logger-category="com.att.athena.ocx.interfaces.edf.services.OutageController"
+        poll-time-in-ms="15000" />
+    
+    <int:gateway id="gatewayToCsiGcpSa" service-interface="com.att.athena.ocx.interfaces.edfif.jms.GcpSaCallSender" default-request-channel="toCsiGcpSa" />
+ 
+    <int-jms:channel id="toCsiGcpSa" transaction-manager="transactionManager" receive-timeout="60000" connection-factory="connectionFactory"
+        destination-resolver="destinationResolver" concurrency="5-15" queue-name="edfif.toCsiGcpSa" />
 
-	<int:service-activator input-channel="exclusiveBankChannel"  method="exclusiveBank" output-channel="loanQuotesChannel">
-		<bean class="org.springframework.integration.samples.loanbroker.stubs.BankStub" p:name="qualityBank" p:baseRate="4.5"/>
-	</int:service-activator>
-			
-	<int:service-activator input-channel="friendlyBankChannel" ref="BankStub"  output-channel="loanQuotesChannel">
-		<bean class="org.springframework.integration.samples.loanbroker.stubs.BankStub" p:name="friendlyBank" p:baseRate="5.0"/>
-	</int:service-activator>
-			
-	<int:service-activator input-channel="easyBankChannel" ref="BankStub" method="easyBank" output-channel="loanQuotesChannel">
-		<bean class="org.springframework.integration.samples.loanbroker.stubs.BankStub" p:name="easyBank"/>
-	</int:service-activator>
-	<!-- end Bank Endpoints -->
-
+    <int:service-activator ref="createEnterpriseOrderKeysService" method="callCsiGcpSa" input-channel="toCsiGcpSa" />
+    
+    <int:channel id="edfifInternalServicesIn" />
+	<int:gateway id="gatewayToInternalServices"
+		service-interface="com.att.athena.ocx.interfaces.edfif.jms.EdfifInternalJmsService"
+		default-request-channel="edfifInternalServicesIn">	
+		<int:method name="dispatch">
+			<int:header name="service" value="dispatch" />
+		</int:method>	
+	</int:gateway>
+	
+	<int-jms:outbound-channel-adapter
+		destination-name="edfif.internal.services" channel="edfifInternalServicesIn"
+		destination-resolver="destinationResolver" connection-factory="connectionFactory" /> 
+	
+	<int-jms:channel id="edfifInternalServicesOut" transaction-manager="transactionManager" receive-timeout="60000" connection-factory="connectionFactory"
+        destination-resolver="destinationResolver" concurrency="5-15" queue-name="edfif.internal.services" />
+        
+    <int:service-activator ref="getInventoryDataService" method="getInventoryData" input-channel="edfifInternalServicesOut" />
+        
+    <int:service-activator ref="workflowService" method="createAndStartWorkflow" input-channel="edfifInternalServicesOut" />    
+        
+    <context:spring-configured /> 
+    <int:annotation-config /> 
+ 
+    <bean class="org.springframework.transaction.aspectj.AnnotationTransactionAspect" factory-method="aspectOf"> 
+        <property name="transactionManager" ref="transactionManager" /> 
+    </bean> 
+ 
+    <context:annotation-config /> 
+    <context:component-scan base-package="com.att.athena.ocx.interfaces.edfif.jms,com.att.athena.ocx.interfaces.edfif.services"/> 
 </beans>
