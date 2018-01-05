@@ -27,9 +27,7 @@
            http://www.springframework.org/schema/integration/xml 
            http://www.springframework.org/schema/integration/xml/spring-integration-xml-4.1.xsd 
            http://www.springframework.org/schema/oxm 
-           http://www.springframework.org/schema/oxm/spring-oxm-4.1.xsd 
-           http://canopi.att.com/common/canopiCommon 
-           http://canopi.att.com/common/canopiCommon.xsd"> 
+           http://www.springframework.org/schema/oxm/spring-oxm-4.1.xsd "> 
  
     <!-- - - - - - - - - --> 
     <!-- JMS Dependencies --> 

@@ -18,10 +18,10 @@ import org.springframework.integration.annotation.Publisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
  
-import com.amdocs.services.fulfillmentorder.fulfillmentorder.FulfillmentOrder;
-import com.att.athena.ocx.interfaces.iod.services.FulfillmentOrderDataService;
-import com.att.bbnms.logging.Logger;
-import com.att.bbnms.logging.LoggerFactory;
+import com.fulfillmentorder.fulfillmentorder.FulfillmentOrder;
+import com.services.FulfillmentOrderDataService;
+import com.Logger;
+import com.LoggerFactory;
  
 @Component
 @Transactional
