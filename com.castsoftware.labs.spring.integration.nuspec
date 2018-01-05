@@ -2,17 +2,16 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>com.castsoftware.labs.spring.integration</id>
-        <version>1.0.0</version>
+        <version>1.5.0</version>
         <title>Spring Integration</title>
         <authors>CAST Labs</authors>
         <owners>CAST</owners>
         <licenseUrl>https://extend.castsoftware.com/V2/Licenses/Cast-Licence-Labs-1.0.html</licenseUrl>
-        <projectUrl>https://github.com/CAST-Extend/com.castsoftware.labs.spring.integration</projectUrl>
+        <projectUrl>https://github.com/CAST-Extend/com.castsoftware.labs.spring.integration/wiki</projectUrl>
         <iconUrl>https://github.com/CAST-Extend/com.castsoftware.labs.spring.integration/blob/master/SpringIntegration200x200.png?raw=true</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>This extension capture spring integration  channels  on JEE</description>
-        <summary>Spring Integration capture service activator channel</summary>
-        <releaseNotes>Initial version</releaseNotes>
+        <description>This extension capture spring integration  channels on service-activator, transformer, filter, splitter, gateway, router, aggregator, inbound-channel-adapter, publisher on JEE technology</description>
+        <releaseNotes>https://github.com/CAST-Extend/com.castsoftware.labs.spring.integration</releaseNotes>
         <tags>CASTLabs CAIP8.0 CAIP8.1 CAIP8.2 techno:JEE</tags>
     </metadata>
 </package>
