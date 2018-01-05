@@ -98,12 +98,12 @@ class ExtensionApplication(cast.application.ApplicationLevelExtension):
                         logging.info('xmltype   '+ xml_type)
                         gateway_type = channelObject.get_property('gatewayProperties.sourcetype')
                         logging.info('gateway '+ gateway_type)
-                        if xml_type.lower() == 'xml' and gateway_type.lower() == 'gateway':
+                        if xml_type.lower() == 'xml' and (gateway_type.lower() == 'gateway' or gateway_type.lower() == 'jms'):
                             for jinterface in javainterfaceclassReferences :
                                 interface_name = channelObject.get_property('gatewayProperties.serviceinterface')
                                 jinterfacename =jinterface.get_fullname()
                                 if interface_name ==  jinterfacename :
-                                    #logging.info('method_name --> '+jinterfacename)
+                                    #logging.info('jmsgatewaymethod_name --> '+jinterfacename)
                                     if channeltext == 'SpringIntegrationreplyChannel' :
                                        cast.application.create_link("callLink",  jinterface,channelObject, bookmark=None)
                                     else:

@@ -65,68 +65,7 @@
  
     </bean> 
  
-    <!--  
-    <int:channel id="toInboundJms"/> 
-	<int:gateway id="gatewayToInternalServices" 
-		service-interface="com.att.athena.ocx.interfaces.edfif.jms.MessageDispatcher" 
-		default-request-channel="toInboundJms"> 
-		<int:method name="dispatch"> 
-			<int:header name="service" value="dispatch" /> 
-		</int:method> 
-	</int:gateway> 
-
-	<int-jms:outbound-channel-adapter 
-		destination-name="edf.internal.services" channel="toInboundJms" 
-		destination-resolver="destinationResolver" connection-factory="connectionFactory" /> 
+      
  
-	 <int-jms:channel id="edfifInternalServicesOut" transaction-manager="transactionManager" connection-factory="connectionFactory" 
-        destination-resolver="destinationResolver" concurrency="5-15" queue-name="edf.internal.services" /> 
- 
-    <int:service-activator ref="edfCoimOutboundJmsEndpoint"  method="notifyBvoipSitesResponse" input-channel="edfifInternalServicesOut" /> 
-    -->  
- 
-    <!-- - - - - - - - - -->
-    <!-- JMS Sending -->
-    <!-- - - - - - - - - -->
-
-    <common:outage-controller datasource-ref="dataSource" bean-to-control-ref="toCsiGcpSa"
-        system-id="CSI-GCP-SA" outage-table-name="INTERFACE_OUTAGE" logger-category="com.att.athena.ocx.interfaces.edf.services.OutageController"
-        poll-time-in-ms="15000" />
     
-    <int:gateway id="gatewayToCsiGcpSa" service-interface="com.att.athena.ocx.interfaces.edfif.jms.GcpSaCallSender" default-request-channel="toCsiGcpSa" />
- 
-    <int-jms:channel id="toCsiGcpSa" transaction-manager="transactionManager" receive-timeout="60000" connection-factory="connectionFactory"
-        destination-resolver="destinationResolver" concurrency="5-15" queue-name="edfif.toCsiGcpSa" />
-
-    <int:service-activator ref="createEnterpriseOrderKeysService" method="callCsiGcpSa" input-channel="toCsiGcpSa" />
-    
-    <int:channel id="edfifInternalServicesIn" />
-	<int:gateway id="gatewayToInternalServices"
-		service-interface="com.att.athena.ocx.interfaces.edfif.jms.EdfifInternalJmsService"
-		default-request-channel="edfifInternalServicesIn">	
-		<int:method name="dispatch">
-			<int:header name="service" value="dispatch" />
-		</int:method>	
-	</int:gateway>
-	
-	<int-jms:outbound-channel-adapter
-		destination-name="edfif.internal.services" channel="edfifInternalServicesIn"
-		destination-resolver="destinationResolver" connection-factory="connectionFactory" /> 
-	
-	<int-jms:channel id="edfifInternalServicesOut" transaction-manager="transactionManager" receive-timeout="60000" connection-factory="connectionFactory"
-        destination-resolver="destinationResolver" concurrency="5-15" queue-name="edfif.internal.services" />
-        
-    <int:service-activator ref="getInventoryDataService" method="getInventoryData" input-channel="edfifInternalServicesOut" />
-        
-    <int:service-activator ref="workflowService" method="createAndStartWorkflow" input-channel="edfifInternalServicesOut" />    
-        
-    <context:spring-configured /> 
-    <int:annotation-config /> 
- 
-    <bean class="org.springframework.transaction.aspectj.AnnotationTransactionAspect" factory-method="aspectOf"> 
-        <property name="transactionManager" ref="transactionManager" /> 
-    </bean> 
- 
-    <context:annotation-config /> 
-    <context:component-scan base-package="com.att.athena.ocx.interfaces.edfif.jms,com.att.athena.ocx.interfaces.edfif.services"/> 
 </beans>

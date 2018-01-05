@@ -9,7 +9,7 @@ class TestIntegration(unittest.TestCase):
 
     def test1(self):
         
-        run(kb_name='cafe_local', application_name='cafeapp', engine=create_postgres_engine())
+        run(kb_name='sjms_local', application_name='jmsatt', engine=create_postgres_engine())
 
 
 if __name__ == "__main__":
