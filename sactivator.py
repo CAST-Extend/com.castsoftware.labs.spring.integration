@@ -58,7 +58,7 @@ class sactivator(cast.analysers.jee.Extension):
         LOG.info('Successfully service activator analyzer Started')
         options.add_classpath('jars')
         options.handle_xml_with_xpath('/beans')
-        options.handle_xml_with_xpath('/')
+        #options.handle_xml_with_xpath('/')
         
       
                
